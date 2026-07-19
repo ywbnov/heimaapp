@@ -1,0 +1,67 @@
+{
+  "name": "heima-accounting",
+  "version": "0.1.0",
+  "description": "黑马记账：Windows 和 macOS 桌面记账应用",
+  "main": "out/main/index.js",
+  "author": "Heima Accounting",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "predev": "npm run rebuild:electron",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "pretest:watch": "npm run rebuild:node",
+    "package": "npm run build && electron-builder",
+    "rebuild:node": "npm rebuild better-sqlite3",
+    "rebuild:electron": "electron-rebuild -f -w better-sqlite3",
+    "pretest": "npm run rebuild:node",
+    "prebuild": "npm run rebuild:electron",
+    "postinstall": "npm run rebuild:electron"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^6.0.0",
+    "antd": "^5.26.5",
+    "better-sqlite3": "^12.4.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "recharts": "^3.1.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@electron/rebuild": "^4.0.1",
+    "@types/node": "^24.1.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.7.0",
+    "electron-builder": "^26.0.12",
+    "electron": "^37.2.3",
+    "electron-vite": "^4.0.0",
+    "jsdom": "^26.1.0",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.6",
+    "vitest": "^3.2.4"
+  },
+  "build": {
+    "appId": "com.heima.accounting",
+    "productName": "黑马记账",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.finance"
+    }
+  }
+}

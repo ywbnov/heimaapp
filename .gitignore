@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build and packaging output
+out/
+release/
+coverage/
+*.tsbuildinfo
+
+# Local runtime data
+runtime-test-profile*/
+*.log
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Editor and OS metadata
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local agent workspace
+.agents/

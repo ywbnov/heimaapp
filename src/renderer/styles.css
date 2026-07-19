@@ -1,0 +1,230 @@
+:root {
+  font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+  color: #1f2933;
+  background: #f4f6f8;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-width: 960px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.app-shell {
+  min-height: 100vh;
+  background: #f4f6f8;
+}
+
+.app-sider {
+  border-right: 1px solid #e7ebef;
+  background: #ffffff !important;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 25px 22px 21px;
+}
+
+.brand-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 10px;
+  color: #ffffff;
+  background: #1f7a65;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.brand-title,
+.brand-subtitle,
+.header-title,
+.header-kicker {
+  margin: 0 !important;
+}
+
+.brand-title {
+  color: #18252e !important;
+}
+
+.brand-subtitle,
+.header-kicker {
+  color: #80909b;
+  font-size: 12px;
+}
+
+.main-menu {
+  border-inline-end: 0 !important;
+  padding: 8px 12px;
+}
+
+.main-menu .ant-menu-item {
+  height: 46px;
+  margin: 6px 0;
+  border-radius: 6px;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 78px;
+  padding: 0 34px;
+  border-bottom: 1px solid #e7ebef;
+  background: #ffffff;
+}
+
+.header-title {
+  color: #18252e !important;
+}
+
+.app-content {
+  padding: 34px;
+}
+
+.welcome-panel {
+  max-width: 720px;
+  padding: 54px 58px;
+  border: 1px solid #e3e9e5;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.welcome-panel h2 {
+  margin-top: 0;
+  color: #18252e;
+}
+
+.welcome-panel p {
+  color: #64737d;
+  font-size: 16px;
+}
+
+.page-stack {
+  max-width: 760px;
+}
+
+.page-heading {
+  margin-bottom: 22px;
+}
+
+.page-heading h2 {
+  margin: 0 0 8px;
+}
+
+.ledger-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: none;
+}
+
+.table-card {
+  border: 1px solid #e3e9e5;
+  border-radius: 8px;
+}
+
+.ledger-filters {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.ledger-filters .ant-input-affix-wrapper {
+  width: 280px;
+}
+
+.ledger-filters > .ant-input:not(.ant-input-affix-wrapper) {
+  width: 150px;
+}
+
+.ledger-filters .ant-select {
+  width: 130px;
+}
+
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-chip {
+  padding: 5px 10px;
+  border: 1px solid #d7e1dc;
+  border-radius: 5px;
+  color: #52625c;
+  background: #fff;
+  cursor: pointer;
+}
+
+.filter-chip.active {
+  border-color: #1f7a65;
+  color: #1f7a65;
+  background: #edf7f3;
+}
+
+.ledger-meta {
+  margin-bottom: 12px;
+  color: #80909b;
+  font-size: 13px;
+}
+
+.table-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+.expense-amount {
+  color: #1d6d5a;
+}
+
+.form-card {
+  border: 1px solid #e3e9e5;
+  border-radius: 8px;
+}
+
+.form-row {
+  display: flex;
+  width: 100%;
+}
+
+.form-row .ant-space-item {
+  flex: 1;
+}
+
+.form-select {
+  width: 100%;
+}
+
+.summary-card,
+.recent-card,
+.chart-card {
+  border: 1px solid #e3e9e5;
+  border-radius: 8px;
+}
+
+.recent-card,
+.chart-card {
+  margin-top: 16px;
+}
+
+.settings-card {
+  margin-bottom: 16px;
+  border: 1px solid #e3e9e5;
+  border-radius: 8px;
+}
+
+.settings-hint {
+  margin: 18px 0 0 !important;
+}
