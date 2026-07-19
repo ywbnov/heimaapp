@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { defaultCategories } from '../../shared/categories'
-import type { Category, Expense, ExpenseFilters, ExpenseInput } from '../../shared/types'
+import type { Category, CategoryBatchInput, Expense, ExpenseFilters, ExpenseInput } from '../../shared/types'
 
 export function useExpenses() {
   const [categories, setCategories] = useState<Category[]>(defaultCategories)
@@ -66,6 +66,36 @@ export function useExpenses() {
     setCategories((current) => current.map((category) => category.id === id ? { ...category, enabled } : category))
   }, [])
 
+  const createCategory = useCallback(async (parentId: string | null, name: string) => {
+    const api = window.accountingApi
+    if (!api) return
+    const created = await api.createCategory(parentId, name)
+    setCategories((current) => [...current, created].sort((a, b) => a.sortOrder - b.sortOrder))
+    return created
+  }, [])
+
+  const renameCategory = useCallback(async (id: string, name: string) => {
+    const api = window.accountingApi
+    if (!api) return
+    await api.renameCategory(id, name)
+    setCategories((current) => current.map((category) => category.id === id ? { ...category, name: name.trim() } : category))
+  }, [])
+
+  const deleteCategory = useCallback(async (id: string) => {
+    const api = window.accountingApi
+    if (!api) return
+    await api.deleteCategory(id)
+    setCategories((current) => current.map((category) => category.id === id ? { ...category, enabled: false, isDeleted: true } : category))
+  }, [])
+
+  const createCategoryBatch = useCallback(async (input: CategoryBatchInput) => {
+    const api = window.accountingApi
+    if (!api) return []
+    const created = await api.createCategoryBatch(input)
+    setCategories((current) => [...current, ...created].sort((a, b) => a.sortOrder - b.sortOrder))
+    return created
+  }, [])
+
   const exportCsv = useCallback(async () => window.accountingApi?.exportCsv(), [])
   const backupJson = useCallback(async () => window.accountingApi?.backupJson(), [])
   const restoreJson = useCallback(async () => {
@@ -74,5 +104,22 @@ export function useExpenses() {
     return count ?? 0
   }, [refresh])
 
-  return { categories, expenses, loading, submitting, error, refresh, createExpense, deleteExpense, setCategoryEnabled, exportCsv, backupJson, restoreJson }
+  return {
+    categories,
+    expenses,
+    loading,
+    submitting,
+    error,
+    refresh,
+    createExpense,
+    deleteExpense,
+    setCategoryEnabled,
+    createCategory,
+    renameCategory,
+    deleteCategory,
+    createCategoryBatch,
+    exportCsv,
+    backupJson,
+    restoreJson
+  }
 }

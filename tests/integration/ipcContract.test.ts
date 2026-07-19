@@ -44,6 +44,26 @@ describe('IPC 契约', () => {
     )
 
     await expect(Promise.resolve().then(() => handlers['categories:set-enabled']({}, { id: 'food', enabled: 'yes' }))).rejects.toThrow()
+    await expect(Promise.resolve().then(() => handlers['categories:set-enabled']({}, { id: 'food', enabled: false }))).rejects.toThrow()
+    await expect(Promise.resolve().then(() => handlers['categories:create']({}, { parentId: 'food' }))).rejects.toThrow()
+
+    const created = await handlers['categories:create']({}, { parentId: 'food', name: '自定义分类' }) as { id: string; name: string; parentId: string; isBuiltin: boolean }
+    expect(created).toMatchObject({ name: '自定义分类', parentId: 'food', isBuiltin: false })
+    await handlers['categories:rename']({}, { id: created.id, name: '改名分类' })
+    await handlers['categories:delete']({}, { id: created.id })
+    expect(new CategoryRepository(db).list().find((category) => category.id === created.id)).toMatchObject({ isDeleted: true })
+
+    await expect(Promise.resolve().then(() => handlers['categories:create-batch']({}, {
+      mode: 'existing-parent',
+      parentId: 'food',
+      childNames: '不是数组'
+    }))).rejects.toThrow()
+    const batch = await handlers['categories:create-batch']({}, {
+      mode: 'new-parent',
+      parentName: '汽车',
+      childNames: ['加油', '停车']
+    }) as Array<{ name: string }>
+    expect(batch.map((category) => category.name)).toEqual(['汽车', '加油', '停车'])
     db.close()
   })
 })

@@ -5,13 +5,15 @@ import {
   BookOutlined,
   DashboardOutlined,
   PlusOutlined,
-  SettingOutlined
+  SettingOutlined,
+  TagsOutlined
 } from '@ant-design/icons'
 import { AddExpensePage } from './pages/AddExpensePage'
 import { LedgerPage } from './pages/LedgerPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { StatsPage } from './pages/StatsPage'
 import { SettingsPage } from './pages/SettingsPage'
+import { CategoriesPage } from './pages/CategoriesPage'
 import { useExpenses } from './hooks/useExpenses'
 
 const { Header, Sider, Content } = Layout
@@ -20,13 +22,27 @@ const navigation = [
   { key: 'dashboard', icon: <DashboardOutlined />, label: '概览' },
   { key: 'add', icon: <PlusOutlined />, label: '记一笔' },
   { key: 'ledger', icon: <BookOutlined />, label: '账目' },
+  { key: 'categories', icon: <TagsOutlined />, label: '分类' },
   { key: 'stats', icon: <BarChartOutlined />, label: '统计' },
   { key: 'settings', icon: <SettingOutlined />, label: '设置' }
 ]
 
 function App() {
   const [activeKey, setActiveKey] = useState('dashboard')
-  const { categories, expenses, submitting, createExpense, deleteExpense, setCategoryEnabled, exportCsv, backupJson, restoreJson } = useExpenses()
+  const {
+    categories,
+    expenses,
+    submitting,
+    createExpense,
+    deleteExpense,
+    setCategoryEnabled,
+    createCategoryBatch,
+    renameCategory,
+    deleteCategory,
+    exportCsv,
+    backupJson,
+    restoreJson
+  } = useExpenses()
   const [messageApi, contextHolder] = message.useMessage()
   const activeLabel = navigation.find((item) => item.key === activeKey)?.label ?? '概览'
 
@@ -39,6 +55,22 @@ function App() {
   async function handleDeleteExpense(id: string) {
     await deleteExpense(id)
     messageApi.success('已删除这笔账目')
+  }
+
+  async function handleCreateCategoryBatch(input: Parameters<typeof createCategoryBatch>[0]) {
+    const created = await createCategoryBatch(input)
+    messageApi.success(`已新增 ${created.length} 个分类`)
+    return created
+  }
+
+  async function handleRenameCategory(id: string, name: string) {
+    await renameCategory(id, name)
+    messageApi.success('分类已修改')
+  }
+
+  async function handleDeleteCategory(id: string) {
+    await deleteCategory(id)
+    messageApi.success('分类已删除')
   }
 
   return (
@@ -81,12 +113,18 @@ function App() {
             <LedgerPage expenses={expenses} categories={categories} onDelete={handleDeleteExpense} />
           ) : activeKey === 'stats' ? (
             <StatsPage expenses={expenses} categories={categories} />
+          ) : activeKey === 'categories' ? (
+            <CategoriesPage
+              categories={categories}
+              onSetCategoryEnabled={setCategoryEnabled}
+              onCreateCategoryBatch={handleCreateCategoryBatch}
+              onRenameCategory={handleRenameCategory}
+              onDeleteCategory={handleDeleteCategory}
+            />
           ) : activeKey === 'dashboard' ? (
             <DashboardPage expenses={expenses} />
           ) : activeKey === 'settings' ? (
             <SettingsPage
-              categories={categories}
-              onSetCategoryEnabled={setCategoryEnabled}
               onExportCsv={exportCsv}
               onBackupJson={backupJson}
               onRestoreJson={async () => {

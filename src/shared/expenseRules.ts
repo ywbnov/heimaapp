@@ -29,11 +29,12 @@ export function validateExpenseInput(input: ExpenseInput, categories: Category[]
   }
 
   const parent = categories.find(
-    (category) => category.id === input.parentCategoryId && category.parentId === null && category.enabled
+    (category) => category.id === input.parentCategoryId && category.parentId === null && category.enabled && !category.isDeleted
   )
   const child = categories.find(
     (category) =>
       category.id === input.categoryId && category.parentId === input.parentCategoryId && category.enabled
+      && !category.isDeleted
   )
   if (!parent || !child) {
     errors.push('请选择有效的一级和二级分类')

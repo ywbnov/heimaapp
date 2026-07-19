@@ -228,3 +228,42 @@ body,
 .settings-hint {
   margin: 18px 0 0 !important;
 }
+
+.categories-page {
+  max-width: 920px;
+}
+
+.category-toolbar {
+  position: sticky;
+  z-index: 8;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 14px 0;
+  background: #f4f7f5;
+}
+
+.category-search {
+  width: 280px;
+}
+
+.category-group-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-right: 8px;
+}
+
+.category-children-editor,
+.category-children-editor > .ant-space-item {
+  width: 100%;
+}
+
+.category-children-editor .ant-form-item {
+  width: 360px;
+  margin-bottom: 8px;
+}

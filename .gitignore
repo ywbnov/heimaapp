@@ -4,12 +4,43 @@ node_modules/
 # Build and packaging output
 out/
 release/
+dist/
+dist-electron/
 coverage/
 *.tsbuildinfo
+*.exe
+*.dmg
+*.AppImage
+*.blockmap
+
+# Bundler and tool caches
+.vite/
+.electron-vite/
+.cache/
+.eslintcache
 
 # Local runtime data
 runtime-test-profile*/
 *.log
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+
+# Test artifacts
+test-results/
+playwright-report/
+blob-report/
+.nyc_output/
+
+# Temporary and backup files
+tmp/
+temp/
+.tmp/
+*.bak
+*.swp
+*.swo
+*~
 
 # Local environment files
 .env

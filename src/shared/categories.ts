@@ -5,7 +5,9 @@ const parent = (id: string, name: string, sortOrder: number): Category => ({
   parentId: null,
   name,
   enabled: true,
-  sortOrder
+  sortOrder,
+  isBuiltin: true,
+  isDeleted: false
 })
 
 const child = (parentId: string, id: string, name: string, sortOrder: number): Category => ({
@@ -13,7 +15,9 @@ const child = (parentId: string, id: string, name: string, sortOrder: number): C
   parentId,
   name,
   enabled: true,
-  sortOrder
+  sortOrder,
+  isBuiltin: true,
+  isDeleted: false
 })
 
 export const defaultCategories: Category[] = [

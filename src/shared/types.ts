@@ -6,7 +6,13 @@ export interface Category {
   name: string
   enabled: boolean
   sortOrder: number
+  isBuiltin: boolean
+  isDeleted: boolean
 }
+
+export type CategoryBatchInput =
+  | { mode: 'new-parent'; parentName: string; childNames: string[] }
+  | { mode: 'existing-parent'; parentId: string; childNames: string[] }
 
 export interface ExpenseInput {
   amountText: string

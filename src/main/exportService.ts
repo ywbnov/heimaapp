@@ -1,4 +1,5 @@
 import type { Category, Expense } from '../shared/types'
+import { defaultCategories } from '../shared/categories'
 import type { SqliteDatabase } from './database'
 import { CategoryRepository } from './repositories/categoryRepository'
 import { ExpenseRepository } from './repositories/expenseRepository'
@@ -69,7 +70,17 @@ function parseBackup(value: string): BackupDocument {
 
 export function restoreBackupJson(db: SqliteDatabase, value: string): number {
   const backup = parseBackup(value)
-  const insertCategory = db.prepare('INSERT INTO categories (id, parent_id, name, enabled, sort_order) VALUES (@id, @parentId, @name, @enabled, @sortOrder)')
+  const builtinIds = new Set(defaultCategories.map((category) => category.id))
+  const restoredCategories = [
+    ...defaultCategories,
+    ...backup.categories
+      .filter((category) => !builtinIds.has(category.id))
+      .map((category) => ({ ...category, isBuiltin: false }))
+  ]
+  const insertCategory = db.prepare(`
+    INSERT INTO categories (id, parent_id, name, enabled, sort_order, is_builtin, is_deleted)
+    VALUES (@id, @parentId, @name, @enabled, @sortOrder, @isBuiltin, @isDeleted)
+  `)
   const insertExpense = db.prepare(`
     INSERT INTO expenses (
       id, amount_cents, occurred_at, parent_category_id, category_id,
@@ -81,7 +92,7 @@ export function restoreBackupJson(db: SqliteDatabase, value: string): number {
   `)
   const restore = db.transaction(() => {
     db.exec('DELETE FROM expenses; DELETE FROM categories;')
-    backup.categories
+    restoredCategories
       .slice()
       .sort((a, b) => Number(a.parentId !== null) - Number(b.parentId !== null))
       .forEach((category) => insertCategory.run({
@@ -89,7 +100,9 @@ export function restoreBackupJson(db: SqliteDatabase, value: string): number {
         parentId: category.parentId,
         name: category.name,
         enabled: category.enabled ? 1 : 0,
-        sortOrder: category.sortOrder
+        sortOrder: category.sortOrder,
+        isBuiltin: category.isBuiltin === false ? 0 : 1,
+        isDeleted: category.isDeleted === true ? 1 : 0
       }))
     backup.expenses.forEach((expense) => insertExpense.run({
       id: expense.id,
