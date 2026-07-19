@@ -10,6 +10,8 @@
 
 **执行状态（2026-07-18）：**任务 1-8 的 MVP 主流程已实现；任务 9 已完成 Windows x64 构建和 NSIS 安装包，macOS DMG 仍需在 macOS 环境完成实机打包与验证。分类新增/重命名和账目编辑延后到下一轮，当前版本支持分类启用/停用和账目删除。
 
+**代码要求规范 ：** 每一个文件代码都需要备注具体作用以及函数方法的作用，需要方便用户和后续开发人员使用。
+
 ---
 
 ## 文件职责
@@ -33,6 +35,7 @@
 - 新建 `tests/unit/expenseRules.test.ts`、`tests/unit/categories.test.ts`：纯业务规则测试。
 - 新建 `tests/integration/database.test.ts`、`tests/integration/exportService.test.ts`：临时 SQLite 和文件导入导出测试。
 - 新建 `tests/renderer/ExpenseForm.test.tsx`、`tests/renderer/LedgerPage.test.tsx`：关键用户流程测试。
+
 
 ## 任务 1：初始化 Electron-Vite 项目
 
